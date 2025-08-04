@@ -1,0 +1,7 @@
+inherit_from:
+  - .rubocop_todo.yml
+  - https://relaxed.ruby.style/rubocop.yml
+
+AllCops:
+  NewCops: enable
+  TargetRubyVersion: 3.4
