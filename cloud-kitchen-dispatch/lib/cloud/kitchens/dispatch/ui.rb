@@ -21,7 +21,7 @@ module Cloud
 
             file   = sprintf('%45.45s', file)
             lineno = sprintf('%4d', lineno.to_i)
-            method_name = sprintf('%-30s', method_name.gsub(/[`']/, '') + '()')
+            method_name = sprintf('%-30s', "#{method_name.gsub(/[`']/, '')}()")
 
             super(file, lineno, method_name)
           end
@@ -174,7 +174,7 @@ module Cloud
           def process_error(e, stream: $stderr)
             raise(e) if test?
 
-            $stderr.print "\n" + error_box(e, title: 'EXCEPTION', stream: stream)
+            $stderr.print "\n#{error_box(e, title: 'EXCEPTION', stream: stream)}"
             if trace
               $stdout.print cursor.up(1)
               $stderr.print error_box(backtrace_trim(e), title: 'STACKTRACE', fg: :white, stream: stream)

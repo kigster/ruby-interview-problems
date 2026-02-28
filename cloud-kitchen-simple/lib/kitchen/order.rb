@@ -37,8 +37,8 @@ module Kitchen
 
     attr_accessor :shelf
 
-    def initialize(*args)
-      super(*args)
+    def initialize(*)
+      super
       @received_at = now
       @shelf       = nil
     end
@@ -77,7 +77,7 @@ module Kitchen
     def order_value
       raise ArgumentError, "Order value can only be computed while it's on the shelf." if shelf.nil?
 
-      value = (shelf_life.to_f - age.to_f * decay_rate * shelf&.coefficient).to_f / shelf_life
+      value = (shelf_life.to_f - (age.to_f * decay_rate * shelf&.coefficient)).to_f / shelf_life
       value = 0 if value < 0
       value
     end
@@ -117,16 +117,16 @@ module Kitchen
 
     def pretty_inspect
       indent = "\n  "
-      "Order<[#{id}] "\
-            "#{indent}id ➔ #{id.green} " \
-            "#{indent}name ➔ #{(sprintf '%-20.20s', name).green} " \
-            "#{indent}temp ➔ #{(sprintf '%-7s', temp).green} " \
-            "#{indent}decay ➔ #{(sprintf '%07.2f', decay_rate).green} " \
-            "#{indent}sh/life ➔ #{(sprintf '%07d', shelf_life).green} " \
-            "#{indent}age (secs) ➔ #{(sprintf '%04.2f', age).cyan}" \
-            "#{indent}value ➔ " \
-            "#{(sprintf '%04.2f', order_value).send(order_value > 0 ? :cyan : :red)}" \
-            "\n>"
+      "Order<[#{id}] " \
+        "#{indent}id ➔ #{id.green} " \
+        "#{indent}name ➔ #{(sprintf '%-20.20s', name).green} " \
+        "#{indent}temp ➔ #{(sprintf '%-7s', temp).green} " \
+        "#{indent}decay ➔ #{(sprintf '%07.2f', decay_rate).green} " \
+        "#{indent}sh/life ➔ #{(sprintf '%07d', shelf_life).green} " \
+        "#{indent}age (secs) ➔ #{(sprintf '%04.2f', age).cyan}" \
+        "#{indent}value ➔ " \
+        "#{(sprintf '%04.2f', order_value).send(order_value > 0 ? :cyan : :red)}" \
+        "\n>"
     end
 
     # noinspection RubyStringKeysInHashInspection

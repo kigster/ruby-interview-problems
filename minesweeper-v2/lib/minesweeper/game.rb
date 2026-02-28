@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative "board"
 
 module Minesweeper
@@ -19,6 +21,7 @@ module Minesweeper
 
       (@cells[index] = @board.cell(coordinate)).tap do |cell|
         return :lose if cell.is_a?(Board::Mine)
+
         reveal_neighbours(coordinate) if cell == CELL_WITH_NO_ADJACENT_MINES
       end
       @cells.count(&:nil?) == @board.mines.size ? :win : :play
@@ -26,7 +29,7 @@ module Minesweeper
 
     private
 
-    def cell_index(coordinate)= coordinate.y * @board.width + coordinate.x
+    def cell_index(coordinate)= (coordinate.y * @board.width) + coordinate.x
 
     def reveal_neighbours(coordinate)
       coordinate.neighbours(width, height).each { |n| reveal(n) }

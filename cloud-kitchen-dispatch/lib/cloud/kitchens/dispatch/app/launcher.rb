@@ -39,7 +39,7 @@ module Cloud
 
           include UI
 
-          def initialize(argv, stdin = STDIN, stdout = STDOUT, stderr = STDERR, kernel = nil)
+          def initialize(argv, stdin = $stdin, stdout = $stdout, stderr = $stderr, kernel = nil)
             if ::Cloud::Kitchens::Dispatch.launcher
               raise(ArgumentError, 'Another instance of CLI Launcher was detected, aborting.')
             end

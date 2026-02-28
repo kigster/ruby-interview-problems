@@ -9,12 +9,12 @@ module Cloud
         let(:courier) { described_class.new('test-courier') }
         let(:order) do
           order_struct = OrderStruct.new(
-            id: 'test-order-1',
-            name: 'Test Order',
-            temp: 'hot',
+            id:        'test-order-1',
+            name:      'Test Order',
+            temp:      'hot',
             shelfLife: 300,
             decayRate: 0.45,
-            state: 'new'
+            state:     'new'
           )
           Order.new(order_struct)
         end

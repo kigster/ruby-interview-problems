@@ -21,35 +21,35 @@ end
 
 module Pharmacy
   FIXTURE_DIR               = File.expand_path('fixtures', __dir__)
-  MEDICATION_HASHES         = JSON.parse(File.read(FIXTURE_DIR + '/' + 'medications.json'))
+  MEDICATION_HASHES         = JSON.parse(File.read("#{FIXTURE_DIR}/medications.json"))
   MEDICATIONS               = MEDICATION_HASHES.map do |h|
-    Medication.new(id:    h['id'],
-                   name:  h['name'],
+    Medication.new(id: h['id'],
+                   name: h['name'],
                    price: h['price'])
   end
-  INVENTORY_HASHES          = JSON.parse(File.read(FIXTURE_DIR + '/' + 'inventory.json'))
+  INVENTORY_HASHES          = JSON.parse(File.read("#{FIXTURE_DIR}/inventory.json"))
   INVENTORY                 = INVENTORY_HASHES.map do |h|
     Inventory.new(medication_id: h['medication_id'],
-                  quantity:      h['quantity'])
+                  quantity: h['quantity'])
   end
-  UPCOMING_INVENTORY_HASHES = JSON.parse(File.read(FIXTURE_DIR + "/" + 'upcoming_inventory.json'))
+  UPCOMING_INVENTORY_HASHES = JSON.parse(File.read("#{FIXTURE_DIR}/upcoming_inventory.json"))
   UPCOMING_INVENTORY        = UPCOMING_INVENTORY_HASHES.map do |h|
     UpcomingInventory.new(medication_id: h['medication_id'],
-                          quantity:      h['quantity'],
-                          date:          h['date'])
+                          quantity: h['quantity'],
+                          date: h['date'])
   end
 
   PRESCRIPTIONS = -> do
     [{
-      medication:         Medication.new(id: 100, name: 'Aspirin', price: 25.0),
+      medication: Medication.new(id: 100, name: 'Aspirin', price: 25.0),
       last_dispense_date: 7,
       next_billable_date: 15,
-      days_supply:        21,
+      days_supply: 21,
     }, {
-      medication:         Medication.new(id: 101, name: 'Benadryl', price: 20.0),
+      medication: Medication.new(id: 101, name: 'Benadryl', price: 20.0),
       last_dispense_date: 0,
       next_billable_date: 10,
-      days_supply:        14,
+      days_supply: 14,
     }]
   end
   #

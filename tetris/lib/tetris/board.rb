@@ -26,7 +26,7 @@ module Tetris
                   Matrix[*matrix_or_array]
                 end
 
-      unless @matrix.class == Matrix
+      unless @matrix.instance_of?(Matrix)
         raise ArgumentError, "matrix argument is meant to be a Matrix instance, got #{matrix_or_array.class.name}"
       end
 

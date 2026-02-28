@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "spec_helper"
 
 require "minesweeper/board"
@@ -45,7 +47,7 @@ RSpec.describe Minesweeper::Board do
   end
 
   it "calculates correctly with a more complex board" do
-    expect(render_for(8, 4, [coord(1, 1), coord(3, 1), coord(3, 2), coord(5,1), coord(5,2), coord(5,3)])).to eq <<~BOARD
+    expect(render_for(8, 4, [coord(1, 1), coord(3, 1), coord(3, 2), coord(5, 1), coord(5, 2), coord(5, 3)])).to eq <<~BOARD
       1121211_
       1*3*4*2_
       113*5*3_

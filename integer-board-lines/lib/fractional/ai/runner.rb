@@ -11,6 +11,7 @@ module Fractional
 
     class Runner
       extend Forwardable
+
       def_delegators :@launcher, :stdout, :stderr, :kernel, :config
 
       attr_reader :argv, :launcher
@@ -39,7 +40,8 @@ module Fractional
 
       def configure
         if config.config_file && File.exist?(launcher.config.config_file)
-          board, coordinates, lines = load_config_from_file(launcher.config.config_file)
+          board, coordinates, lines =
+            load_config_from_file(launcher.config.config_file)
           board_params.board = board
           board_params.left_top_coordinate = coordinates
           board_params.lines = lines
@@ -60,8 +62,8 @@ module Fractional
         lines_config = config["lines"] || []
         board =
           Fractional::Ai::Board.new(
-            width: board_config["width"].to_i || 20,
-            height: board_config["height"].to_i || 20
+            width: board_config["width"].to_i,
+            height: board_config["height"].to_i
           )
 
         left_top_coordinate =

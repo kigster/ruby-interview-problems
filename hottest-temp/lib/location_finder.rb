@@ -23,16 +23,16 @@ end
 class HottestLocation < LocationFinder
   attr_accessor :hottest_temperature
 
-  def initialize(*args, &block)
+  def initialize(*, &)
     self.hottest_temperature = 0
-    super(*args, &block)
+    super
   end
 
   def find(weather)
     kelvins = weather.temperature
-    if kelvins > hottest_temperature
-      self.found_location = weather.location_name
-      self.hottest_temperature = kelvins
-    end
+    return unless kelvins > hottest_temperature
+
+    self.found_location = weather.location_name
+    self.hottest_temperature = kelvins
   end
 end

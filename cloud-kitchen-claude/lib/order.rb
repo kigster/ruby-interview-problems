@@ -1,5 +1,6 @@
+# frozen_string_literal: true
+
 class Order
-  attr_reader :id, :name, :temp, :shelf_life, :decay_rate, :created_at, :shelf
   attr_accessor :shelf
 
   STATES = [:received, :cooking, :ready, :picked_up, :delivered, :expired].freeze
@@ -15,30 +16,32 @@ class Order
     @shelf = nil
   end
 
-  def state
-    @state
-  end
+  attr_reader :id, :name, :temp, :shelf_life, :decay_rate, :created_at, :shelf, :state
 
   def cook!
     return false unless @state == :received
+
     @state = :cooking
     true
   end
 
   def ready!
     return false unless @state == :cooking
+
     @state = :ready
     true
   end
 
   def pick_up!
     return false unless @state == :ready
+
     @state = :picked_up
     true
   end
 
   def deliver!
     return false unless @state == :picked_up
+
     @state = :delivered
     true
   end
@@ -55,7 +58,7 @@ class Order
 
   def value(shelf_decay_modifier = 1)
     return 0.0 if @state == :expired
-    
+
     numerator = shelf_life - (decay_rate * age * shelf_decay_modifier)
     (numerator / shelf_life).clamp(0.0, 1.0)
   end

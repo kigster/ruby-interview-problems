@@ -179,8 +179,10 @@ module Cloud
         # noinspection RubyResolve
         FILE_LOG_HANDLER = ->(filename, level) do
           [
-            :stream, output: File.open(filename, 'a').tap { |file| file.sync = true },
-                     level:  level
+            :stream, {
+              output: File.open(filename, 'a').tap { |file| file.sync = true },
+              level:  level
+            }
           ]
         end
       end

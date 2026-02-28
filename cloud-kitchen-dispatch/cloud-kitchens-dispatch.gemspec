@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-lib_path = File.expand_path(__dir__) + '/lib'
+lib_path = "#{File.expand_path(__dir__)}/lib"
 $LOAD_PATH << lib_path if Dir.exist?(lib_path)
 
 require 'cloud/kitchens/dispatch/identity'

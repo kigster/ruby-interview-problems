@@ -32,7 +32,7 @@ RSpec.describe SortedFile do
 
     let(:first_extension) { extensions.first }
     let(:regexp) { /\.#{first_extension}$/ }
-    let(:matching_files) { file_names.select { |f| f =~ regexp } }
+    let(:matching_files) { file_names.grep(regexp) }
 
     it 'should get all jpg files' do
       expect(matching_files.first).to match regexp

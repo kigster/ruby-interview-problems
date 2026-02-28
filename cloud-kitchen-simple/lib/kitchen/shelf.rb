@@ -19,12 +19,12 @@ module Kitchen
     attr_accessor :capacity
 
     extend Forwardable
+
     def_delegators :@orders, :size, :each, :map
     include Enumerable
 
     def initialize(coefficient: 1,
                    capacity: Shelf.default_shelf_capacity)
-
       self.capacity = capacity
       @coefficient  = coefficient
       @orders       = SortedSet.new

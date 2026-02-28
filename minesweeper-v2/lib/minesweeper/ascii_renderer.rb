@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Minesweeper
   AsciiRenderer = Data.define(:grid) do
     def render(output = $stdout)

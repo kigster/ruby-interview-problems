@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 require_relative '../lib/shelf_manager'
 require_relative '../lib/order'
 
 RSpec.describe ShelfManager do
   subject(:shelf_manager) { ShelfManager.new }
-  
+
   let(:hot_order_data) do
     {
       'id' => 'hot1',
@@ -88,17 +90,17 @@ RSpec.describe ShelfManager do
           shelf_manager.overflow_shelf.add_order(order)
           cold_orders << order
         end
-        
+
         # Now overflow is full, try to add a new hot order
         new_order = Order.new(hot_order_data.merge('id' => 'new_hot'))
         result = shelf_manager.place_order(new_order)
 
         expect(result[:action]).to eq(:placed_on_overflow_after_move)
         expect(result[:moved_order]).to be_a(Order)
-        expect(result[:moved_order].temp).to eq('cold')  # Should be a cold order that was moved
+        expect(result[:moved_order].temp).to eq('cold') # Should be a cold order that was moved
         expect(result[:moved_order].shelf).to eq(shelf_manager.shelves['cold'])
         expect(new_order.shelf).to eq(shelf_manager.overflow_shelf)
-        
+
         # Verify cold shelf now has the moved order
         expect(shelf_manager.shelves['cold'].orders).to include(result[:moved_order])
       end
@@ -109,19 +111,19 @@ RSpec.describe ShelfManager do
           order = Order.new(cold_order_data.merge('id' => "cold#{i}"))
           shelf_manager.shelves['cold'].add_order(order)
         end
-        
+
         10.times do |i|
           frozen_data = cold_order_data.merge('id' => "frozen#{i}", 'temp' => 'frozen')
           order = Order.new(frozen_data)
           shelf_manager.shelves['frozen'].add_order(order)
         end
-        
+
         # Fill overflow shelf completely
         15.times do |i|
           order = Order.new(cold_order_data.merge('id' => "overflow#{i}"))
           shelf_manager.overflow_shelf.add_order(order)
         end
-        
+
         new_order = Order.new(hot_order_data.merge('id' => 'new_hot'))
         result = shelf_manager.place_order(new_order)
 
@@ -137,7 +139,7 @@ RSpec.describe ShelfManager do
     it 'removes order from its shelf' do
       order = Order.new(hot_order_data)
       shelf_manager.place_order(order)
-      
+
       expect(shelf_manager.remove_order(order)).to be true
       expect(order.shelf).to be_nil
       expect(shelf_manager.shelves['hot'].orders).not_to include(order)

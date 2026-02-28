@@ -20,7 +20,7 @@ class SortedFile
   end
 
   def extension
-    file_name.split(/\./).last
+    file_name.split('.').last
   end
 
   def <=>(other)

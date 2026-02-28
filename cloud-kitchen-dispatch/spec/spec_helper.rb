@@ -20,8 +20,6 @@ require 'dry/configurable/test_interface'
 
 Cloud::Kitchens::Dispatch::App::Config.enable_test_interface
 
-require 'cloud/kitchens/dispatch/app/launcher'
-
 RSpec.configure do |config|
   config.example_status_persistence_file_path = './tmp/rspec-examples.txt'
   config.filter_run_when_matching :focus
@@ -58,4 +56,4 @@ Aruba.configure do |config|
   config.allow_absolute_paths = true
 end
 
-::Dir.glob(::File.expand_path('../support/**/*.rb', __FILE__)).each { |f| require(f) }
+::Dir.glob(::File.expand_path('support/**/*.rb', __dir__)).sort.each { |f| require(f) }

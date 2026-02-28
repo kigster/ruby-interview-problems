@@ -17,6 +17,7 @@ module Kitchen
 
       describe 'adding orders' do
         include OrdersHelper
+
         let(:orders) { order_hashes }
 
         describe 'order_hashes from fixtures should have a' do

@@ -12,9 +12,7 @@ module Cloud
           include Dispatch::Logging
 
           def transaction
-            @transaction ||= ->(b) {
-              b.call
-            }
+            @transaction ||= lambda(&:call)
           end
         end
 
@@ -22,7 +20,7 @@ module Cloud
           attr_reader :order, :index, :producer
 
           def self.ventable_callback_method_name
-            ('on_' + name.gsub(/.*::/, '').gsub(/Event$/, '').underscore).to_sym
+            "on_#{name.gsub(/.*::/, '').gsub(/Event$/, '').underscore}".to_sym
           end
 
           def initialize(producer, order:, index: nil)

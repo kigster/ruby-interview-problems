@@ -40,8 +40,8 @@ class KeyValueStore
     timestamps.each_with_index do |ts, index|
       if index < timestamps.size - 1
         return ts if time >= ts && time < timestamps[index + 1]
-      else
-        return ts if time >= ts
+      elsif time >= ts
+        return ts
       end
     end
 

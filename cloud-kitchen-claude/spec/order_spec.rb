@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative '../lib/order'
 
 RSpec.describe Order do
@@ -10,7 +12,7 @@ RSpec.describe Order do
       'decayRate' => 0.45
     }
   end
-  
+
   subject(:order) { Order.new(order_data) }
 
   describe '#initialize' do
@@ -73,8 +75,8 @@ RSpec.describe Order do
   describe '#age' do
     it 'returns time elapsed since creation' do
       initial_age = order.age
-      sleep(0.01)  # Reduced sleep time for faster tests
-      expect(order.age).to be > initial_age  # Just check it increases
+      sleep(0.01) # Reduced sleep time for faster tests
+      expect(order.age).to be > initial_age # Just check it increases
     end
   end
 

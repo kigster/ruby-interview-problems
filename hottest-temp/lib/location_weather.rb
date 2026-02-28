@@ -25,7 +25,7 @@ class LocationWeather
   end
 
   def get_weather!
-    uri = URI(self.class.api_url + '?appid=' + self.class.token + '&' + parser.query)
+    uri = URI("#{self.class.api_url}?appid=#{self.class.token}&#{parser.query}")
     res = Net::HTTP.get_response(uri)
     JSON.parse res.body if res.is_a?(Net::HTTPSuccess)
   rescue StandardError => e

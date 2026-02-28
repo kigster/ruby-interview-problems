@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 require "spec_helper"
 
 require "minesweeper/game"
 require "minesweeper/board"
 
 RSpec.describe Minesweeper::Game do
-  let(:mines) { [coord(1, 0), coord(3, 1), coord(3, 2), coord(5,1), coord(5,2)] }
+  let(:mines) { [coord(1, 0), coord(3, 1), coord(3, 2), coord(5, 1), coord(5, 2)] }
   let(:board) { Minesweeper::Board.new(8, 3, mines) }
   let(:game) { described_class.new(board) }
 

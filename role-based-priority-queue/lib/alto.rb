@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'set'
-
 module Tasks
   class Base
     attr_accessor :created_at, :due_at
@@ -57,9 +55,8 @@ class TaskQueue
     mutex.synchronize do
       task_types = employee.role.task_types
 
-      filtered_tasks = []
-      task_types.each do |task_type|
-        filtered_tasks << tasks[task_type]
+      filtered_tasks = task_types.map do |task_type|
+        tasks[task_type]
       end
 
       filtered_tasks.flatten!.sort!

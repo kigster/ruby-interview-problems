@@ -18,11 +18,11 @@ module Trees
     end
 
     def num_children
-      children&.compact.size
+      children&.compact&.size
     end
 
     def sum
-      data + children&.compact.map(&:sum)&.sum || 0
+      (data + children&.compact&.map(&:sum)&.sum) || 0
     end
   end
 end

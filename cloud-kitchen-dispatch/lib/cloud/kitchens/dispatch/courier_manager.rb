@@ -9,7 +9,7 @@ module Cloud
         attr_reader :couriers, :order_delivered_observers
 
         def initialize(courier_count: 5)
-          @couriers = Array.new(courier_count) { |i| Courier.new("courier-#{i+1}") }
+          @couriers = Array.new(courier_count) { |i| Courier.new("courier-#{i + 1}") }
           @order_delivered_observers = []
           @mutex = Mutex.new
         end
@@ -24,26 +24,26 @@ module Cloud
           return nil unless courier
 
           courier.assign!
-          
+
           # Simulate courier travel time (2-6 seconds)
           travel_time = rand(2..6)
-          
+
           Thread.new do
             sleep(travel_time)
             pickup_order(courier, order)
           end
-          
+
           courier
         end
 
         def pickup_order(courier, order)
           @mutex.synchronize do
             return unless courier.assigned? && order.aasm.current_state == :ready
-            
+
             if courier.pickup(order)
               # Simulate delivery time (1-5 seconds after pickup)
               delivery_time = rand(1..5)
-              
+
               Thread.new do
                 sleep(delivery_time)
                 deliver_order(courier)
@@ -64,9 +64,9 @@ module Cloud
 
         def stats
           {
-            total_couriers: @couriers.size,
-            ready_couriers: available_couriers.size,
-            assigned_couriers: @couriers.count(&:assigned?),
+            total_couriers:      @couriers.size,
+            ready_couriers:      available_couriers.size,
+            assigned_couriers:   @couriers.count(&:assigned?),
             delivering_couriers: @couriers.count(&:delivering?)
           }
         end

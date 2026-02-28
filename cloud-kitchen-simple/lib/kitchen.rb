@@ -30,13 +30,13 @@ module Kitchen
   MIN_COURIER_DELAY = 4.0
 
   COURIER_WAIT = -> do
-    delay = MIN_COURIER_DELAY + (MAX_COURIER_DELAY - MIN_COURIER_DELAY) * rand
+    delay = MIN_COURIER_DELAY + ((MAX_COURIER_DELAY - MIN_COURIER_DELAY) * rand)
     sleep(delay)
   end
 
   ORDER_RATE          = 20.0 # per second
   ORDER_RECEIVED_WAIT = -> do
-    sleep((1.0 / ORDER_RATE.to_f) + 0.1 * (0.5 + rand))
+    sleep((1.0 / ORDER_RATE.to_f) + (0.1 * (0.5 + rand)))
   end
 
   def self.order_id(order_or_id)

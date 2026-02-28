@@ -12,7 +12,7 @@ RSpec.describe ConnectFour::Board do
 
   subject(:board) { described_class.new }
 
-  let(:rows) { board.to_s.split(/\n/) }
+  let(:rows) { board.to_s.split("\n") }
 
   context '#initialize' do
     its(:board_state) { should be_a_kind_of Array }
@@ -32,17 +32,17 @@ RSpec.describe ConnectFour::Board do
 
     describe 'first move' do
       before { board.place_piece(column_index, black) }
-      let(:expected) { black + empty * (ConnectFour::Board::COLS - 1) }
+      let(:expected) { black + (empty * (ConnectFour::Board::COLS - 1)) }
       it { is_expected.to eq expected }
 
       describe 'second move' do
-        let(:expected) { black + red + empty * (ConnectFour::Board::COLS - 2) }
+        let(:expected) { black + red + (empty * (ConnectFour::Board::COLS - 2)) }
         before { board.place_piece(column_index + 1, red) }
         it { is_expected.to eq expected }
 
         describe 'third move' do
           let(:last_row_string) { rows[-2] }
-          let(:expected) { black + red + empty * (ConnectFour::Board::COLS - 2) }
+          let(:expected) { black + red + (empty * (ConnectFour::Board::COLS - 2)) }
           before { board.place_piece(column_index + 1, red) }
           it { is_expected.to eq expected }
         end

@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+# frozen_string_literal: true
 
 require_relative '../lib/kitchen'
 
@@ -83,7 +84,7 @@ begin
 rescue Interrupt
   puts "\n🛑 Simulation interrupted by user"
   exit 0
-rescue => e
+rescue StandardError => e
   puts "💥 Error: #{e.message}"
   puts e.backtrace.join("\n") if ENV['DEBUG']
   exit 1

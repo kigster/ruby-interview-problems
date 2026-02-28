@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 require_relative '../lib/courier'
 require_relative '../lib/order'
 
 RSpec.describe Courier do
   subject(:courier) { Courier.new('test-courier') }
-  
+
   let(:order_data) do
     {
       'id' => '123',
@@ -13,7 +15,7 @@ RSpec.describe Courier do
       'decayRate' => 0.45
     }
   end
-  
+
   let(:order) { Order.new(order_data) }
 
   describe '#initialize' do
@@ -41,23 +43,23 @@ RSpec.describe Courier do
       other_order = Order.new(order_data.merge('id' => 'other'))
       other_order.cook!
       other_order.ready!
-      
+
       expect(courier.assign_order(other_order)).to be false
     end
 
     it 'starts pickup process after travel time' do
       expect(courier.assign_order(order)).to be true
-      
+
       # Wait for pickup (should happen within 6 seconds)
       sleep_time = 0
       while courier.state == :assigned && sleep_time < 7
         sleep(0.1)
         sleep_time += 0.1
       end
-      
+
       # Wait a bit more for delivery to complete
       sleep(0.2)
-      
+
       expect(courier.state).to eq(:ready)
       expect(order.state).to eq(:delivered)
     end
@@ -89,10 +91,10 @@ RSpec.describe Courier do
 
     it 'starts delivery process immediately' do
       courier.pickup_order
-      
+
       # Wait for delivery (should happen immediately)
       sleep(0.2)
-      
+
       expect(courier.state).to eq(:ready)
       expect(order.state).to eq(:delivered)
       expect(courier.assigned_order).to be_nil
@@ -110,7 +112,7 @@ RSpec.describe Courier do
 
     it 'delivers order and resets courier' do
       delivered_order = courier.deliver_order
-      
+
       expect(delivered_order).to eq(order)
       expect(order.state).to eq(:delivered)
       expect(courier.state).to eq(:ready)

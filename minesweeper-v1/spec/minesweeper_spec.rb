@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rspec'
 require_relative '../lib/minesweeper'
 
@@ -14,22 +16,25 @@ RSpec.describe Board do
     end
 
     it '#bombs' do
-      expect(board.matrix.find{|c| c == Board::BOMB }.size).to eq bombs
+      expect(board.matrix.find{ |c| c == Board::BOMB }.size).to eq bombs
     end
   end
 
   describe 'counts' do
-    let(:matrix) { [
-      nil, nil, nil,
-      nil, Board::BOMB, nil,
-      nil, nil, nil ]
+    let(:matrix) {
+      [
+        nil, nil, nil,
+        nil, Board::BOMB, nil,
+        nil, nil, nil
+      ]
     }
 
     before { board.matrix = matrix; board.send(:compute_counts!) }
 
     it 'should have a couple of 1 in all cells' do
-      (cols*rows).times do |index|
+      (cols * rows).times do |index|
         next if index == 4
+
         expect(board[index]).to eq 1
       end
     end

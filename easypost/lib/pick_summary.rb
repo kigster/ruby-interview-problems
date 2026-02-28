@@ -1,19 +1,19 @@
+# frozen_string_literal: true
+
 # andykram@easypost.com
 
 module EasyPost
   class PickSummary
-
-    class Pick < Struct.new(:warehouse_id,
-                            :worker_id,
-                            :pick_id,
-                            :type,
-                            :timestamp,
-                            :inventory_id,
-                            :date)
-
+    Pick = Struct.new(:warehouse_id,
+                      :worker_id,
+                      :pick_id,
+                      :type,
+                      :timestamp,
+                      :inventory_id,
+                      :date) do
       def initialize(hash)
         super(
-            hash[:warehouse_id],
+          hash[:warehouse_id],
             hash[:worker_id],
             hash[:pick_id],
             hash[:type],
@@ -25,6 +25,7 @@ module EasyPost
 
       def <=>(other)
         return nil unless other.is_a?(Pick)
+
         if warehouse_id == other.warehouse_id
           if date == other.date
             if worker_id == other.worker_id
@@ -53,7 +54,6 @@ module EasyPost
 
     attr_accessor :warehouse_id, :date, :data
 
-
     def initialize(warehouse_id, date, data = [])
       self.warehouse_id = warehouse_id
       self.date         = date
@@ -66,7 +66,7 @@ module EasyPost
       current_worker_id     = nil
       current_pick_start_at = 0
       current_pick_items_at = nil
-      (data << nil).inject({}) do |hash, pick|
+      (data << nil).each_with_object({}) do |pick, hash|
         if pick.nil?
           if current_worker_id && current_pick_start_at && current_pick_items_at
             hash[current_worker_id] += current_pick_items_at - current_pick_start_at
@@ -87,8 +87,6 @@ module EasyPost
             current_pick_items_at = pick.timestamp
           end
         end
-
-        hash
       end
     end
   end

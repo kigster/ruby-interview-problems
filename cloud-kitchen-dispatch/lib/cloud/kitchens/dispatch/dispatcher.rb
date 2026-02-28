@@ -43,10 +43,7 @@ module Cloud
           # rubocop: enable Naming/MemoizedInstanceVariableName
         end
 
-        attr_reader :kitchen, :couriers, :shelves
-        attr_reader :queues
-        attr_reader :mutex, :launcher
-        attr_reader :counter, :order_source
+        attr_reader :kitchen, :couriers, :shelves, :queues, :mutex, :launcher, :counter, :order_source
 
         extend Forwardable
 

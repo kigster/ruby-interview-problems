@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
-lib_path = File.expand_path(File.dirname(__FILE__) + '/../lib')
+lib_path = File.expand_path("#{File.dirname(__FILE__)}/../lib")
 $LOAD_PATH << lib_path if File.exist?(lib_path) && !$LOAD_PATH.include?(lib_path)
 
 require 'location_parser'
@@ -24,13 +24,13 @@ class HighestTemperature
     data.split("\n").each do |line|
       parser = LocationParser.new(line)
       compare_temp(get_data(parser), parser)
-    rescue ArgumentError => e
+    rescue ArgumentError
       puts "unknown format: #{line}"
     end
   end
 
   def get_data(parser)
-    uri = URI(self.class.api_url + '?' + parser.query)
+    uri = URI("#{self.class.api_url}?#{parser.query}")
     res = Net::HTTP.get_response(uri)
     JSON.parse(res.body) if res.is_a?(Net::HTTPSuccess)
   end

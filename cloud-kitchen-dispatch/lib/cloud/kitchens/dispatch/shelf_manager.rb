@@ -11,7 +11,7 @@ module Cloud
 
         def initialize
           @shelves = {}
-          Types::Temperature.values.each do |temp|
+          Types::Temperature.each_value do |temp|
             @shelves[temp] = Shelf.new(temperature: temp)
           end
           @overflow_shelf = Shelf.new(temperature: nil, overflow: true)
@@ -19,11 +19,11 @@ module Cloud
 
         def place_order(order)
           target_shelf = @shelves[order.temperature]
-          
+
           if target_shelf.add_order(order)
-            return target_shelf
+            target_shelf
           elsif @overflow_shelf.add_order(order)
-            return @overflow_shelf
+            @overflow_shelf
           else
             order.expire!
             nil
@@ -48,11 +48,11 @@ module Cloud
 
         def stats
           {
-            total_orders: all_orders.size,
-            ready_orders: ready_orders.size,
-            hot_shelf: @shelves['hot'].orders.size,
-            cold_shelf: @shelves['cold'].orders.size,
-            frozen_shelf: @shelves['frozen'].orders.size,
+            total_orders:   all_orders.size,
+            ready_orders:   ready_orders.size,
+            hot_shelf:      @shelves['hot'].orders.size,
+            cold_shelf:     @shelves['cold'].orders.size,
+            frozen_shelf:   @shelves['frozen'].orders.size,
             overflow_shelf: @overflow_shelf.orders.size
           }
         end

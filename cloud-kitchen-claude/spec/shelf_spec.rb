@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative '../lib/shelf'
 require_relative '../lib/order'
 
@@ -11,9 +13,9 @@ RSpec.describe Shelf do
       'decayRate' => 0.45
     }
   end
-  
+
   let(:order) { Order.new(order_data) }
-  
+
   describe 'temperature-specific shelf' do
     subject(:shelf) { Shelf.new(temperature: 'hot', capacity: 10) }
 
@@ -45,7 +47,7 @@ RSpec.describe Shelf do
 
       it 'rejects order when shelf is full' do
         10.times { |i| shelf.add_order(Order.new(order_data.merge('id' => i.to_s))) }
-        
+
         new_order = Order.new(order_data.merge('id' => 'overflow'))
         expect(shelf.add_order(new_order)).to be false
         expect(shelf.orders).not_to include(new_order)
@@ -114,14 +116,14 @@ RSpec.describe Shelf do
 
   describe '#update_order_values!' do
     subject(:shelf) { Shelf.new(temperature: 'hot', capacity: 10) }
-    
+
     it 'removes expired orders' do
       expired_order = Order.new(order_data)
       allow(expired_order).to receive(:value).and_return(0.0)
       shelf.add_order(expired_order)
-      
+
       expired_count = shelf.update_order_values!
-      
+
       expect(expired_count).to eq(1)
       expect(shelf.orders).to be_empty
       expect(expired_order.state).to eq(:expired)
@@ -130,9 +132,9 @@ RSpec.describe Shelf do
     it 'keeps valid orders' do
       valid_order = Order.new(order_data)
       shelf.add_order(valid_order)
-      
+
       expired_count = shelf.update_order_values!
-      
+
       expect(expired_count).to eq(0)
       expect(shelf.orders).to include(valid_order)
     end

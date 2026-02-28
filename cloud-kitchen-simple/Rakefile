@@ -32,7 +32,7 @@ end
 
 task build: :clean
 
-::YARD::Rake::YardocTask.new(:doc) do |t|
+YARD::Rake::YardocTask.new(:doc) do |t|
   t.files = %w[lib/**/*.rb exe/* spec/**/*.rb - README.adoc LICENSE.adoc PROBLEM.adoc]
   t.options.unshift('--title', 'Kitchen Order Dispatch Simulation')
   t.options.unshift('--assets', 'design/**/*.jpg design/**/*.png')
@@ -40,7 +40,7 @@ task build: :clean
   t.after = -> { exec('open doc/index.html') } if RUBY_PLATFORM =~ /darwin/
 end
 
-::RSpec::Core::RakeTask.new(:spec)
-::RuboCop::RakeTask.new(:rubocop)
+RSpec::Core::RakeTask.new(:spec)
+RuboCop::RakeTask.new(:rubocop)
 
 task default: %i[spec rubocop]

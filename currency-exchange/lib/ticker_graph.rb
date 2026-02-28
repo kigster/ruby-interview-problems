@@ -1,16 +1,15 @@
 # frozen_string_literal: false
 
-require 'set'
 require 'stringio'
 require 'colored2'
 
 class TickerGraph
-  class TickerTuple < Struct.new(:tuple, :amount)
+  TickerTuple = Struct.new(:tuple, :amount) do
     attr_accessor :from, :to
 
     def initialize(*args)
-      super(*args)
-      self.from, self.to = args.first.split(/-/)
+      super
+      self.from, self.to = args.first.split('-')
     end
 
     def ticker
@@ -42,7 +41,7 @@ class TickerGraph
   end
 
   def to_s
-    "\n" + as_string
+    "\n#{as_string}"
   end
 
   private
@@ -65,14 +64,14 @@ class TickerGraph
     keys = from_ticker.nil? ? currencies.keys : [from_ticker]
     keys.each do |from|
       currencies[from] ||= {}
-      currencies.keys.each do |to|
+      currencies.each_key do |to|
         next if to == from
 
         currencies[from][to] ||= nil
 
         next if currencies[from][to].nil?
 
-        currencies[to].keys.each do |transient_to|
+        currencies[to].each_key do |transient_to|
           next if currencies[from].key?(transient_to) ||
                   currencies[from][to].nil? ||
                   currencies[to][transient_to].nil?
@@ -83,7 +82,7 @@ class TickerGraph
       end
     end
 
-    currencies.keys.each do |from|
+    currencies.each_key do |from|
       tos = currencies[from].keys.select { |k| currencies[from][k].nil? }
       unless tos.empty?
         todo[from] ||= Set.new
@@ -91,7 +90,7 @@ class TickerGraph
       end
     end
 
-    todo.keys.each do |from|
+    todo.each_key do |from|
       todo[from].each do |to|
         if currencies[to][from]
           currencies[from][to] = 1.0 / currencies[to][from]
@@ -121,8 +120,6 @@ class TickerGraph
     out.puts conversions.sort.join("\n")
     out.string
   end
-
-  private
 
   def register_edge(tuple)
     currencies[tuple.from] ||= {}

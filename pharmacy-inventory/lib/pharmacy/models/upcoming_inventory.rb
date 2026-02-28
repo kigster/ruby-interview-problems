@@ -6,8 +6,8 @@ module Pharmacy
   class UpcomingInventory < Inventory
     attr_accessor :date
 
-    def initialize(date:, **opts)
-      super(**opts)
+    def initialize(date:, **)
+      super(**)
       self.date = date
     end
   end

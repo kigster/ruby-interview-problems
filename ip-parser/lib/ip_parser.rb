@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
-class IPParser < Struct.new(:ip)
-end
+IPParser = Struct.new(:ip)
 
 require 'ipv4_parser'
 require 'ipv6_parser'

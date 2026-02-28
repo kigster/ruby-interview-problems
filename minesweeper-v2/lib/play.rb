@@ -1,10 +1,14 @@
+# frozen_string_literal: true
+
 require "readline"
 
 require_relative "minesweeper/ascii_renderer"
 require_relative "minesweeper/game"
 
 module Minesweeper
-  module_function def play(...)
+  module_function
+
+  def play(...)
     game = Game.new(Board.generate_random(...))
     renderer = AsciiRenderer.new(game)
     renderer.render
@@ -13,7 +17,7 @@ module Minesweeper
       result = game.reveal(Coordinate.new(*input.split(",").map(&:to_i)))
       renderer.render
       if [:win, :lose].include?(result)
-        puts "You #{result == :win ? "win" : "lose"}!"
+        puts "You #{result == :win ? 'win' : 'lose'}!"
         return
       end
     end

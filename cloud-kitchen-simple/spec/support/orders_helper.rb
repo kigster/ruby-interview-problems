@@ -18,8 +18,8 @@ module Kitchen
       @order ||= orders.first
     end
 
-    def each_order(range = nil, &block)
-      range ? orders[range].each(&block) : orders.each(&block)
+    def each_order(range = nil, &)
+      range ? orders[range].each(&) : orders.each(&)
     end
 
     def hot_shelf
@@ -42,8 +42,8 @@ module Kitchen
       [hot_shelf, cold_shelf, frozen_shelf, overflow_shelf]
     end
 
-    def each_shelf(&block)
-      shelves.each(&block)
+    def each_shelf(&)
+      shelves.each(&)
     end
   end
 end

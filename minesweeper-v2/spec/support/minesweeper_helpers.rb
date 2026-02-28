@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "minesweeper/coordinate"
 require "minesweeper/ascii_renderer"
 

@@ -25,7 +25,7 @@ module Graphs
     end
 
     def output(datum)
-      print datum.to_s + ' —— '
+      print "#{datum} —— "
     end
 
     def reset!

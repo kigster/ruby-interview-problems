@@ -11,7 +11,7 @@ module Cloud
         VERSION_LABEL = "#{LABEL} #{VERSION}"
         COPYRIGHT     = '© 2020 Konstantin Gredeskoul, All rights reserved. '
         LICENSE       = 'MIT License'
-        META          = [name: NAME, version: VERSION, copyright: COPYRIGHT, license: LICENSE, label: LABEL].freeze
+        META          = [{ name: NAME, version: VERSION, copyright: COPYRIGHT, license: LICENSE, label: LABEL }].freeze
         HEADER        = ["#{NAME} (v#{VERSION})", COPYRIGHT + LICENSE].freeze
       end
     end

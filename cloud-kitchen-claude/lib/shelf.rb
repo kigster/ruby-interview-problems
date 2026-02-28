@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative 'order'
 
 class Shelf
@@ -15,13 +17,14 @@ class Shelf
 
   def can_accept?(order)
     return true if @temperature == 'any'
+
     @temperature == order.temp
   end
 
   def add_order(order)
     return false if full?
     return false unless can_accept?(order)
-    
+
     @orders << order
     order.shelf = self
     true
@@ -47,12 +50,12 @@ class Shelf
         expired_orders << order
       end
     end
-    
+
     expired_orders.each do |order|
       remove_order(order)
       order.expire!
     end
-    
+
     expired_orders.length
   end
 

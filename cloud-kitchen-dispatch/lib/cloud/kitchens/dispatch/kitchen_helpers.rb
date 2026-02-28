@@ -51,8 +51,8 @@ module Cloud
         def event_name(event)
           (event.is_a?(Class) ? event.name : event.class.name).
             gsub(/.*Events/, '').
-            gsub(/Event$/, '').
-            underscore
+                                                                gsub(/Event$/, '').
+                                                                underscore
         end
       end
     end

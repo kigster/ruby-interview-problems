@@ -19,23 +19,22 @@ end
 
 desc 'Run bundle update for all solutions'
 task :upgrade do
-  code = 0
-  STDOUT.sync = true
+  $stdout.sync = true
   Dir.glob('[a-z]*').each do |entry|
     next unless File.directory?(entry)
     next if File.exist?("#{entry}/.skip")
-    Dir.chdir(entry) do 
+
+    Dir.chdir(entry) do
       `bundle update`
     end
   end
 end
 
-
 namespace :solutions do
   desc 'Run RSpecs for all solutions'
   task :specs do
     code = 0
-    STDOUT.sync = true
+    $stdout.sync = true
     Dir.glob('[a-z]*').each do |entry|
       next unless File.directory?(entry)
       next if File.exist?("#{entry}/.skip")

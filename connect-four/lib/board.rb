@@ -28,7 +28,7 @@ module ConnectFour
     def check_winner; end
 
     def print_board
-      puts to_s
+      puts self
     end
 
     def to_s

@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 # noinspection RubyYardReturnMatch
-# rubocop: disable Metrics/ClassLength
-# rubocop: disable Style/AccessorGrouping
 
 require_relative 'shelf'
 require 'forwardable'
@@ -52,6 +50,7 @@ module Kitchen
     end
 
     extend Forwardable
+
     # @def_delegators [Integer] size - total number of orders on the shelves
     def_delegators :@orders, :size
 
@@ -247,4 +246,3 @@ module Kitchen
 end
 
 # rubocop: enable Metrics/ClassLength
-# rubocop: enable Style/AccessorGrouping

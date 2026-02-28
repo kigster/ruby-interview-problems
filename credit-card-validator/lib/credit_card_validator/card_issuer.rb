@@ -9,7 +9,7 @@ module CreditCardValidator
 
       prefixes.any? do |prefix|
         if prefix.to_s.include?('-')
-          from, to = prefix.split(/-/).map(&:to_i)
+          from, to = prefix.split('-').map(&:to_i)
           (from...to).include?(card[0...(from.to_s.size)].to_i)
         else
           card.to_s.start_with?(prefix.to_s)

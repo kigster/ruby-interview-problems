@@ -20,7 +20,7 @@ module Cloud
         attribute :decayRate, Types::Float
 
         def to_s
-          "\n" + pretty_inspect + "\n"
+          "\n#{pretty_inspect}\n"
         end
 
         alias inspect to_s

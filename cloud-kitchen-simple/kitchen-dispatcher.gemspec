@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-lib_path = File.expand_path(__dir__) + '/lib'
+lib_path = "#{File.expand_path(__dir__)}/lib"
 $LOAD_PATH << lib_path if Dir.exist?(lib_path)
 
 require 'kitchen/version'
@@ -16,7 +16,8 @@ Gem::Specification.new do |spec|
   spec.license  = 'MIT'
 
   spec.metadata = {
-    'source_code_ursi' => 'https://github.com/kigster/kitchen'
+    'source_code_ursi' => 'https://github.com/kigster/kitchen',
+    'rubygems_mfa_required' => 'true'
   }
 
   spec.signing_key = Gem.default_key_path

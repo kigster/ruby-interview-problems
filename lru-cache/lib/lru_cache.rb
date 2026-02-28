@@ -1,8 +1,11 @@
 # frozen_string_literal: true
+
 require 'forwardable'
 class LRUCache
   extend Forwardable
+
   attr_accessor :max_size, :data, :recency
+
   def_delegators :data, :size, :each, :each_pair
 
   def initialize(max_size = 10)

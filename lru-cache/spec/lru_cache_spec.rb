@@ -15,8 +15,8 @@ RSpec.describe LRUCache do
 
     context 'write' do
       before { lru.write(key, value) }
-      its(:max_size) { is_expected.to eq(10)}
-      its(:size) { is_expected.to eq(1)}
+      its(:max_size) { is_expected.to eq(10) }
+      its(:size) { is_expected.to eq(1) }
     end
   end
 end

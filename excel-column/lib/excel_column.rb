@@ -19,12 +19,12 @@ module ExcelColumnIndex
     if number < 1
       ''
     else
-      begin
-        cols = self.class.columns
-        base = cols.size
 
-        to_excel_column((number - 1) / base) + cols[(number - 1) % base]
-      end
+      cols = self.class.columns
+      base = cols.size
+
+      to_excel_column((number - 1) / base) + cols[(number - 1) % base]
+
     end
   end
 end

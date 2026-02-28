@@ -10,12 +10,12 @@ module Cloud
         let(:overflow_shelf) { described_class.new(temperature: nil, overflow: true) }
         let(:order) do
           order_struct = OrderStruct.new(
-            id: 'test-order-1',
-            name: 'Test Order',
-            temp: 'hot',
+            id:        'test-order-1',
+            name:      'Test Order',
+            temp:      'hot',
             shelfLife: 300,
             decayRate: 0.45,
-            state: 'new'
+            state:     'new'
           )
           Order.new(order_struct)
         end
@@ -45,24 +45,24 @@ module Cloud
           it 'returns false when shelf is full and not overflow' do
             Shelf::DEFAULT_CAPACITY.times do |i|
               test_order = Order.new(OrderStruct.new(
-                id: "order-#{i}",
-                name: "Order #{i}",
-                temp: 'hot',
-                shelfLife: 300,
-                decayRate: 0.45,
-                state: 'new'
-              ))
+                                       id:        "order-#{i}",
+                                       name:      "Order #{i}",
+                                       temp:      'hot',
+                                       shelfLife: 300,
+                                       decayRate: 0.45,
+                                       state:     'new'
+                                     ))
               shelf.add_order(test_order)
             end
 
             new_order = Order.new(OrderStruct.new(
-              id: 'overflow-order',
-              name: 'Overflow Order',
-              temp: 'hot',
-              shelfLife: 300,
-              decayRate: 0.45,
-              state: 'new'
-            ))
+                                    id:        'overflow-order',
+                                    name:      'Overflow Order',
+                                    temp:      'hot',
+                                    shelfLife: 300,
+                                    decayRate: 0.45,
+                                    state:     'new'
+                                  ))
 
             expect(shelf.add_order(new_order)).to be false
           end

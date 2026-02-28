@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #  __  __ _
 # |  \/  (_)_ __   ___ _____      _____  ___ _ __   ___ _ __
 # | |\/| | | '_ \ / _ / __\ \ /\ / / _ \/ _ | '_ \ / _ | '__|
@@ -56,7 +58,7 @@ class Board
     rows.times do |r|
       s.puts
       columns.times do |c|
-        i = r * columns + c
+        i = (r * columns) + c
         if matrix[i] == BOMB
           s.printf "%s", "BM "
         elsif matrix[i].nil?
@@ -70,23 +72,18 @@ class Board
   end
 
   def print_board
-    puts to_s
+    puts self
   end
 
   def make_move(x, y)
-    if self[x, y] == BOMB
-      raise 'Game over'
-    else
-
-    end
-
+    raise 'Game over' if self[x, y] == BOMB
   end
 
   def [](x, y = nil)
     if y.nil?
       matrix[x]
     else
-      matrix[y * columns + x]
+      matrix[(y * columns) + x]
     end
   end
 
@@ -108,13 +105,15 @@ class Board
     delta.each do |x_delta|
       delta.each do |y_delta|
         next if x_delta == 0 && y_delta == 0
+
         x1 = x + x_delta
         y1 = y + y_delta
         next if x1 < 0 || y1 < 0 || x1 >= columns || y1 >= rows
+
         bombs += 1 if self[x1, y1] == BOMB
       end
     end
-    matrix[y * columns + x] = bombs
+    matrix[(y * columns) + x] = bombs
   end
 
   def bombs_away!
@@ -156,14 +155,5 @@ class MineSweeperUI
     @board.print_board
 
     raise "No make_move method present on Board!" unless @board.methods.include?(:make_move)
-
-    0.times do
-      x = rand(@rows)
-      y = rand(@columns)
-
-      @board.make_move(x, y)
-      @board.print_board
-    end
   end
 end
-

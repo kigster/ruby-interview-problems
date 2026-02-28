@@ -1,6 +1,10 @@
+inherit_from:
+  - .relaxed-rubocop-2.4.yml
+
 AllCops:
   NewCops: enable
-  TargetRubyVersion: 2.7
+  TargetRubyVersion: 4.0
+  UseCache: true
   DefaultFormatter: progress
   DisplayStyleGuide: true
   DisplayCopNames: true
@@ -22,20 +26,3 @@ AllCops:
     - '**/Gemfile'
     - '**/Rakefile'
 
-inherit_from:
-  - .rubocop_todo.yml
-  - .relaxed-rubocop-2.4.yml
-
-Layout/HashAlignment:
-  Enabled: true
-  EnforcedColonStyle: table
-
-Style/Dir:
-  Enabled: false
-
-Layout/MultilineMethodCallIndentation:
-  Enabled: true
-  EnforcedStyle: indented_relative_to_receiver
-
-Style/HashEachMethods:
-  Enabled: false

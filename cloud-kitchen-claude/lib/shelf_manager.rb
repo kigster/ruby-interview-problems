@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative 'shelf'
 
 class ShelfManager
@@ -15,7 +17,7 @@ class ShelfManager
   def place_order(order)
     # Try preferred temperature shelf first
     target_shelf = @shelves[order.temp]
-    if target_shelf && target_shelf.add_order(order)
+    if target_shelf&.add_order(order)
       return { shelf: target_shelf, action: :placed_on_temp_shelf }
     end
 
@@ -26,21 +28,19 @@ class ShelfManager
 
     # Overflow is full - try to move an existing order from overflow to make room
     moved_order = try_move_from_overflow
-    if moved_order
-      if @overflow_shelf.add_order(order)
-        return { 
-          shelf: @overflow_shelf, 
-          action: :placed_on_overflow_after_move,
-          moved_order: moved_order
-        }
-      end
+    if moved_order && @overflow_shelf.add_order(order)
+      return {
+        shelf: @overflow_shelf,
+        action: :placed_on_overflow_after_move,
+        moved_order: moved_order
+      }
     end
 
     # No room anywhere - discard random order from overflow
     discarded_order = discard_random_from_overflow
     if discarded_order && @overflow_shelf.add_order(order)
-      return { 
-        shelf: @overflow_shelf, 
+      return {
+        shelf: @overflow_shelf,
         action: :placed_on_overflow_after_discard,
         discarded_order: discarded_order
       }
@@ -48,12 +48,12 @@ class ShelfManager
 
     # Complete failure
     order.expire!
-    return { shelf: nil, action: :order_wasted }
+    { shelf: nil, action: :order_wasted }
   end
 
   def remove_order(order)
     return false unless order.shelf
-    
+
     shelf = order.shelf
     shelf.remove_order(order)
   end
@@ -82,7 +82,7 @@ class ShelfManager
   def stats
     {
       hot: @shelves['hot'].orders.length,
-      cold: @shelves['cold'].orders.length, 
+      cold: @shelves['cold'].orders.length,
       frozen: @shelves['frozen'].orders.length,
       overflow: @overflow_shelf.orders.length,
       total: all_orders.length
@@ -99,18 +99,18 @@ class ShelfManager
     # Try to move an order from overflow to its preferred shelf
     @overflow_shelf.orders.each do |order|
       target_shelf = @shelves[order.temp]
-      if target_shelf && !target_shelf.full? && target_shelf.can_accept?(order)
-        @overflow_shelf.remove_order(order)
-        target_shelf.add_order(order)
-        return order
-      end
+      next unless target_shelf && !target_shelf.full? && target_shelf.can_accept?(order)
+
+      @overflow_shelf.remove_order(order)
+      target_shelf.add_order(order)
+      return order
     end
     nil
   end
 
   def discard_random_from_overflow
     return nil if @overflow_shelf.orders.empty?
-    
+
     random_order = @overflow_shelf.orders.sample
     @overflow_shelf.remove_order(random_order)
     random_order.expire!

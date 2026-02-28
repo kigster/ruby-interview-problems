@@ -24,7 +24,7 @@ end
 RSpec.shared_context 'aruba setup', shared_context: :aruba_setup do
   let(:binary) { ::Cloud::Kitchens::Dispatch::BINARY }
   let(:args) { [] }
-  let(:command) { File.basename(binary) + ' ' + args.join(' ') }
+  let(:command) { "#{File.basename(binary)} #{args.join(' ')}" }
   let(:log_path) { Tempfile.new('kitchen').path }
   let(:log_file) { LogFileWrapper.new(log_path) }
 

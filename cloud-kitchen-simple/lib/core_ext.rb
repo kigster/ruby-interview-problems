@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-class ThreadSafeHash < ::Hash
+class ThreadSafeHash < Hash
   attr_reader :mutex
 
-  def initialize(*args)
-    super(*args)
+  def initialize(*)
+    super
 
     @mutex = Mutex.new
   end
@@ -16,11 +16,11 @@ class ThreadSafeHash < ::Hash
   end
 end
 
-class ThreadSafeArray < ::Array
+class ThreadSafeArray < Array
   attr_reader :mutex
 
-  def initialize(*args)
-    super(*args)
+  def initialize(*)
+    super
 
     @mutex = Mutex.new
   end

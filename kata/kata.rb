@@ -82,11 +82,11 @@ module PrimeDecomposition
     end
 
     exponent -= 1
-    result = divisible.to_f / (prime**exponent).to_f
+    result = divisible.to_f / (prime**exponent)
     puts result
-    if result - result.to_i == 0
-      result
-    end
+    return unless result - result.to_i == 0
+
+    result
   end
 end
 

@@ -24,8 +24,8 @@ module Pharmacy
 
     def to_hash
       {
-        id:    id,
-        name:  name,
+        id: id,
+        name: name,
         price: price
       }
     end

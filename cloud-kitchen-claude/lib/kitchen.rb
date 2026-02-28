@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'json'
 require_relative 'order'
 require_relative 'shelf_manager'
@@ -24,30 +26,30 @@ class Kitchen
 
   def start(orders_file:, orders_per_second: 2.0)
     @running = true
-    
+
     orders_data = load_orders(orders_file)
     puts "🍳 Kitchen starting with #{orders_data.length} orders at #{orders_per_second} orders/second"
-    
+
     # Start background shelf update thread
     start_shelf_updater
-    
+
     # Process orders at specified rate
     interval = 1.0 / orders_per_second
-    
+
     orders_data.each_with_index do |order_data, index|
       break unless @running
-      
+
       process_order(order_data)
-      
+
       # Sleep between orders (except for the last one)
       if index < orders_data.length - 1
         sleep(interval)
       end
     end
-    
+
     # Wait for all orders to be delivered or expired
     wait_for_completion
-    
+
     @running = false
     display_final_stats
     puts "🏁 Kitchen simulation completed"
@@ -61,32 +63,32 @@ class Kitchen
 
   def load_orders(file_path)
     JSON.parse(File.read(file_path))
-  rescue => e
+  rescue StandardError => e
     puts "❌ Error loading orders from #{file_path}: #{e.message}"
     exit 1
   end
 
   def process_order(order_data)
     order = Order.new(order_data)
-    
+
     log_event("📥 Order received", order)
     increment_stat(:orders_received)
-    
+
     # Instantly cook the order
     order.cook!
     increment_stat(:orders_cooked)
-    
-    # Instantly ready the order  
+
+    # Instantly ready the order
     order.ready!
     increment_stat(:orders_ready)
-    
+
     # Place on shelf
     placement_result = @shelf_manager.place_order(order)
     handle_shelf_placement(order, placement_result)
-    
+
     # Dispatch courier
     dispatch_courier(order) if order.state == :ready
-    
+
     display_shelf_contents
   end
 
@@ -111,11 +113,11 @@ class Kitchen
 
   def dispatch_courier(order)
     available_courier = @couriers.find { |c| c.state == :ready }
-    
+
     if available_courier
       available_courier.assign_order(order)
       log_event("🚗 Courier #{available_courier.id} dispatched", order)
-      
+
       # Start monitoring this order for pickup/delivery
       Thread.new do
         monitor_order_lifecycle(order)
@@ -130,22 +132,22 @@ class Kitchen
     while order.state == :ready && @running
       sleep(0.1)
     end
-    
-    if order.state == :picked_up
-      log_event("📋 Order picked up", order)
-      @shelf_manager.remove_order(order)
-      increment_stat(:orders_picked_up)
-      
-      # Wait for delivery
-      while order.state == :picked_up && @running
-        sleep(0.1)
-      end
-      
-      if order.state == :delivered
-        log_event("✅ Order delivered", order)
-        increment_stat(:orders_delivered)
-      end
+
+    return unless order.state == :picked_up
+
+    log_event("📋 Order picked up", order)
+    @shelf_manager.remove_order(order)
+    increment_stat(:orders_picked_up)
+
+    # Wait for delivery
+    while order.state == :picked_up && @running
+      sleep(0.1)
     end
+
+    return unless order.state == :delivered
+
+    log_event("✅ Order delivered", order)
+    increment_stat(:orders_delivered)
   end
 
   def start_shelf_updater
@@ -153,24 +155,24 @@ class Kitchen
       while @running
         sleep(1) # Update every second
         expired_count = @shelf_manager.update_all_shelves!
-        if expired_count > 0
-          increment_stat(:orders_expired, expired_count)
-          puts "⚠️  #{expired_count} orders expired and removed from shelves"
-          display_shelf_contents
-        end
+        next unless expired_count > 0
+
+        increment_stat(:orders_expired, expired_count)
+        puts "⚠️  #{expired_count} orders expired and removed from shelves"
+        display_shelf_contents
       end
     end
   end
 
   def wait_for_completion
     puts "\n⏳ Waiting for all orders to complete..."
-    
+
     loop do
       active_orders = @shelf_manager.all_orders.count { |o| [:ready, :picked_up].include?(o.state) }
       busy_couriers = @couriers.count { |c| c.state != :ready }
-      
+
       break if active_orders == 0 && busy_couriers == 0
-      
+
       sleep(0.5)
     end
   end
@@ -195,7 +197,7 @@ class Kitchen
   end
 
   def display_final_stats
-    puts "\n" + "=" * 50
+    puts "\n#{'=' * 50}"
     puts "📈 FINAL STATISTICS"
     puts "=" * 50
     @stats.each do |key, value|
