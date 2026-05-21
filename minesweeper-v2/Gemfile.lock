@@ -10,7 +10,7 @@ GEM
     irb (1.13.2)
       rdoc (>= 4.0.0)
       reline (>= 0.4.2)
-    json (2.7.2)
+    json (2.19.5)
     language_server-protocol (3.17.0.3)
     lint_roller (1.1.0)
     parallel (1.25.1)
@@ -26,8 +26,7 @@ GEM
     regexp_parser (2.9.2)
     reline (0.5.9)
       io-console (~> 0.5)
-    rexml (3.3.1)
-      strscan
+    rexml (3.4.2)
     rspec (3.13.0)
       rspec-core (~> 3.13.0)
       rspec-expectations (~> 3.13.0)
@@ -71,7 +70,6 @@ GEM
       lint_roller (~> 1.1)
       rubocop-performance (~> 1.21.0)
     stringio (3.1.1)
-    strscan (3.1.0)
     unicode-display_width (2.5.0)
 
 PLATFORMS
